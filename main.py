@@ -4,13 +4,17 @@ import dotenv
 
 dotenv.load_dotenv()
 
-ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
+ELEVENLABS_API_KEY = os.getenv('ELEVENLABS_API_KEY')
 
 api_key = ELEVENLABS_API_KEY
 
 voice_id = '21m00Tcm4TlvDq8ikWAM'
 
-text = 'Hayat güzel bir deneyimdir.'
+print('|----------------------------------------------------------|\n'
+      '|Welcome. You can convert your inputs to audio files here. |\n'
+      '|----------------------------------------------------------|')
+
+text = input('Please write words that you want to convert to an audio file: ')
 
 url = f'https://api.elevenlabs.io/v1/text-to-speech/{voice_id}'
 
@@ -28,6 +32,10 @@ data = {
     }
 }
 
+print("|------------|\n"
+      "|Loading...  |\n"
+      "|------------|")
+
 response = requests.post(url, headers=headers, json=data)
 
 if response.status_code == 200:
@@ -35,7 +43,10 @@ if response.status_code == 200:
 
     with open('ses.mp3', 'wb') as audio_file:
         audio_file.write(response.content)
-    print('Ses başarıyla oluşturuldu ve output.mp3 dosyasına kaydedildi.')
+    print('File created successfully and saved into output.mp3 \n'
+          '---------------------------------------------------- \n'
+          'Come again!\n'
+          '----------------------------------------------------')
 else:
-    print(f'İstek başarısız oldu. Durum kodu: {response.status_code}')
-    print('Hata mesajı:', response.text)
+    print(f'Request failed. Case code: {response.status_code}')
+    print('Error:', response.text)
